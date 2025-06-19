@@ -3,6 +3,20 @@ const router = express.Router();
 const Tweet = require("../models/tweets");
 const { checkBody } = require("../modules/checkBody");
 
+// Collecting all tweets and sorting by date (decreasing)
+router.get("/", async (req, res) => {
+  try {
+    const tweets = await Tweet.find();
+    
+    // sorting by deceasing date
+    tweets.sort((a,b) => {return b.date - a.date})
+    
+    res.json({ result: true, tweets: tweets });
+  } catch (error) {
+    console.error("db error:", error);
+  }
+});
+
 // Adding a new tweet
 router.post("/add", async (req, res) => {
   if (!checkBody(req.body, ["user", "content"])) {
