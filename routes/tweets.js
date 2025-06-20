@@ -6,7 +6,7 @@ const { checkBody } = require("../modules/checkBody");
 // Collecting all tweets and sorting by date (decreasing)
 router.get("/", async (req, res) => {
   try {
-    const tweets = await Tweet.find();
+    const tweets = await Tweet.find().populate("user", "firstname username");
     
     // sorting by deceasing date
     tweets.sort((a,b) => {return b.date - a.date})
