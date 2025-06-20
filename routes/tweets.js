@@ -7,6 +7,7 @@ const { checkBody } = require("../modules/checkBody");
 router.get("/", async (req, res) => {
   try {
     const tweets = await Tweet.find().populate("user", "firstname username");
+    console.log(tweets)
     
     // sorting by deceasing date
     tweets.sort((a,b) => {return b.date - a.date})
@@ -118,7 +119,7 @@ router.get("/hashtags/:tag", async (req, res) => {
     const pattern = `#${req.params.tag}`;
     const tweets = await Tweet.find({
       content: { $regex: pattern },
-    });
+    }).populate("user", "firstname username");
 
     // sorting by decreasing date
     tweets.sort((a, b) => b.date - a.date);
